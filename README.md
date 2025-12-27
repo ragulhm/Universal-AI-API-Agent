@@ -87,7 +87,7 @@ The result is a **fully functional REST API in seconds**.
 - Generates clean JSON schemas automatically
 
 **Example**
-```json
+json
 {
   "item_name": "String",
   "price": "Number",
