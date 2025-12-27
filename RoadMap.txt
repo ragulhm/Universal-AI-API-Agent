@@ -1,0 +1,89 @@
+This is a sophisticated project that bridges the gap between unstructured web data and structured software development. To build a "Universal AI API Agent," you need a robust pipeline that handles everything from headless browsing to dynamic code generation.
+
+Here is the detailed **Project Workflow**, **Requirements**, and **Planning** guide.
+
+---
+
+## 🏗️ Project Workflow (The Pipeline)
+
+The workflow follows a linear progression from data ingestion to API serving.
+
+### Phase 1: Ingestion & Scraping
+
+1. **URL Submission:** User inputs a URL via the Next.js dashboard.
+2. **Headless Browsing:** Using **Playwright/Puppeteer**, the system launches a browser to handle JavaScript-heavy sites (SPAs).
+3. **DOM Sanitization:** The system strips away unnecessary tags (`<script>`, `<style>`, `<iframe>`) to reduce token count for the LLM.
+
+### Phase 2: AI Intelligence & Schema Mapping
+
+4. **Semantic Analysis:** The cleaned HTML/Text is sent to an **LLM (GPT-4o or Llama 3)** with a specific prompt: *"Identify the primary data entities (e.g., Products, Reviews) and their attributes."*
+5. **Schema Inference:** The AI returns a structured JSON schema defining the fields, data types (String, Int, Boolean), and relationships.
+
+### Phase 3: Dynamic Infrastructure Setup
+
+6. **Database Provisioning:** The system creates a dynamic collection in **MongoDB** or a virtual table in a Multi-tenant SQL setup.
+7. **Route Mapping:** A dynamic router in Express/NestJS maps incoming requests (e.g., `/api/v1/user-project/products`) to the newly created data store.
+
+### Phase 4: Delivery & Documentation
+
+8. **Swagger Generation:** The system uses the inferred schema to generate a **Swagger/OpenAPI spec** on the fly.
+9. **Deployment:** The API goes live immediately, and the user receives a unique API Key for authentication.
+
+---
+
+## 📋 Requirements & Planning
+
+### 1. Functional Requirements
+
+* **Authentication:** Users must be able to sign up and manage their generated APIs.
+* **Rate Limiting:** Protect your scraping engine and LLM costs by limiting requests per user.
+* **Data Refresh:** Ability to schedule "Re-scrapes" to keep the generated API data fresh.
+* **Customization:** A dashboard to manually rename fields or change data types if the AI makes a mistake.
+
+### 2. Technical Stack (The "Modern AI" Stack)
+
+| Layer | Technology Recommendation |
+| --- | --- |
+| **Frontend** | Next.js 14 (App Router), Tailwind CSS, Shadcn UI |
+| **Backend** | Node.js with NestJS (better for scalable architecture) |
+| **Scraping** | Playwright (better stealth and speed than Puppeteer) |
+| **AI Orchestration** | LangChain or LlamaIndex (for managing scraping prompts) |
+| **Database** | MongoDB (flexible schema) + Redis (caching) |
+| **Monitoring** | Helicone or LangSmith (to monitor LLM costs/latency) |
+
+### 3. Challenges to Plan For
+
+* **Bot Detection:** Some websites block scrapers. You may need **Proxy Rotation** (Bright Data or ScrapingBee).
+* **Token Limits:** Very large websites exceed LLM context windows. You must implement a "Chunking" strategy or extract only key HTML sections.
+* **Latency:** Scraping + AI analysis is slow. Use **WebSockets** or **Server-Sent Events (SSE)** to show the user real-time progress (e.g., *"Scraping site..." → "Identifying fields..."*).
+
+---
+
+## 📅 Execution Roadmap (The 4-Week Sprint)
+
+### Week 1: The "Scraper Core"
+
+* Build the Next.js UI for URL input.
+* Setup the Playwright backend to extract clean HTML text.
+* Implement basic "Prompt Engineering" to turn text into a JSON object.
+
+### Week 2: The "Dynamic Backend"
+
+* Develop the logic to take a JSON schema and create a MongoDB collection.
+* Build a "Catch-all" Express route that serves data based on the URL parameters.
+
+### Week 3: The "Management Dashboard"
+
+* Build the UI to display the generated API endpoints.
+* Integrate Swagger UI (Auto-documentation).
+* Implement API Key authentication for the generated endpoints.
+
+### Week 4: Polish & Scaling
+
+* Add export options (CSV/JSON).
+* Implement caching (Redis) so the AI doesn't have to re-process the same site repeatedly.
+* Deploy to Vercel (Frontend) and Railway/AWS (Backend).
+
+---
+
+**Would you like me to draft the specific System Prompt you should use to help the AI extract the schema from the raw HTML?**
